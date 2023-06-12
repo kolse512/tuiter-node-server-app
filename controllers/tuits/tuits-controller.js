@@ -36,10 +36,11 @@ const deleteTuit = (req, res) => {
 }
   
   
-export default (app) => {
+const TuitsController = (app) => {
  app.post('/api/tuits', createTuit);
  app.get('/api/tuits', findTuits);
  app.put('/api/tuits/:tid', updateTuit);
  app.delete('/api/tuits/:tid', deleteTuit);
 }
 
+export default TuitsController;
