@@ -18,7 +18,7 @@ app.use(
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000","https://a5--monumental-starburst-c22729.netlify.app"],
+    origin: "https://a5--monumental-starburst-c22729.netlify.app",
   })
 )
 
