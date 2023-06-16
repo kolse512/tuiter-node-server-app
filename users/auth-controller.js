@@ -1,16 +1,16 @@
 import * as usersDao from "./users-dao.js";
 const AuthController = (app) => {
   const register = async (req, res) => {
-    const username = req.body.username;
-    const user = usersDao.findUserByUsername(username);
+    const user = await usersDao.findUserByUsername(req.body.username);
     if (user) {
       res.sendStatus(409);
       return;
     }
-    const newUser = usersDao.createUser(req.body);
+    const newUser = await usersDao.createUser(req.body);
     req.session["currentUser"] = newUser;
     res.json(newUser);
   };
+
   const login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -22,6 +22,7 @@ const AuthController = (app) => {
       res.sendStatus(404);
     }
   };
+
   const profile = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
@@ -30,16 +31,15 @@ const AuthController = (app) => {
     }
     res.json(currentUser);
   };
+
   const logout = async (req, res) => {
     req.session.destroy();
     res.sendStatus(200);
   };
-  const update = (req, res) => {
 
- 
-
-    const userId = req.session["currentUser"];
-    const updatedUser = usersDao.updateUser(userId, req.body);
+  const update = async (req, res) => {
+    const userId = req.session["currentUser"]._id;
+    const updatedUser = await usersDao.updateUser(userId, req.body);
     if (!updatedUser) {
       res.sendStatus(404);
       return;
