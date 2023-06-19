@@ -10,7 +10,16 @@ import AuthController from "./users/auth-controller.js";
 const CONNECTION_STRING =  'mongodb+srv://Cluster57626:anjali@cluster0.jyy3myf.mongodb.net/tuiter' //'mongodb://127.0.0.1:27017/tuiter'
 mongoose.connect(CONNECTION_STRING);
 
-const app = express()
+const app = express();
+
+app.set("trust proxy", 1);
+
+app.use(cors({
+  credentials: true,
+  origin: "https://a5--monumental-starburst-c22729.netlify.app", //"http://localhost:3000",//
+})
+);
+
 app.use(
     session({
       secret: "any string",
@@ -24,11 +33,6 @@ app.use(
 );
 
 app.use(express.json());
-app.use(cors({
-    credentials: true,
-    origin: "https://a5--monumental-starburst-c22729.netlify.app", //"http://localhost:3000",//
-  })
-)
 
 TuitsController(app);
 HelloController(app)
